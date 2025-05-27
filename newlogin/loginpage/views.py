@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .models import CustomUser
 from collections import Counter
 import json
-
+from statistics import mean, median, mode
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('users')
@@ -56,6 +56,11 @@ def get_age_bucket(age):
 @login_required
 def age_chart_view(request):
     ages = CustomUser.objects.values_list('age', flat=True)
+    user_ages = list(ages.values_list('age', flat=True))
+
+    calculated_mean = round(mean(user_ages), 2)
+    calculated_median = median(user_ages)
+    calculated_mode = mode(user_ages)
 
     age_buckets = {'0-10': 0, '11-20': 0, '21-30': 0, '31-40': 0, '41-50': 0, '51-60': 0, '60+': 0}
     for age in ages:
@@ -65,5 +70,8 @@ def age_chart_view(request):
     context = {
         'age_labels': json.dumps(list(age_buckets.keys())),
         'age_data': json.dumps(list(age_buckets.values())),
+        'mean': calculated_mean,
+        'median': calculated_median,
+        'mode': calculated_mode
     }
     return render(request, 'age_chart.html', context)

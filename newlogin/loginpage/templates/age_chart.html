@@ -1,9 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container mt-5">
+    <div class="justify-content-center text-center">
+        <h2>User Age Distribution</h2>
+        <canvas id="ageChart"></canvas> 
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'users' %}" class="btn btn-primary">Users List</a>
+        </div>
 
-    <h2>User Age Distribution</h2>
-    <canvas id="ageChart"></canvas>    
+        <!-- Card for Mean, Median, Mode -->
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Age Mean</h5>
+                        <p class="card-text fs-4">{{ mean }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Age Median</h5>
+                        <p class="card-text fs-4">{{ median }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Age Mode</h5>
+                        <p class="card-text fs-4">{{ mode }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+       
 
     <style>
         #ageChart {
@@ -49,4 +90,5 @@
         }
       });
     </script>
+    
 {% endblock %}
