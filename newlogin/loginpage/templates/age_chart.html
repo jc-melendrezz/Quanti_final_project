@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2>User Age Distribution</h2>
+    <canvas id="ageChart"></canvas>    
+
+    <style>
+        #ageChart {
+            max-width: 600px;
+            height: 400px !important;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+      const labels = JSON.parse('{{ age_labels|escapejs }}');
+      const data = JSON.parse('{{ age_data|escapejs }}');
+
+      const ctx = document.getElementById('ageChart').getContext('2d');
+
+      new Chart(ctx, {
+        type: 'bar', 
+        data: {
+          labels: labels, 
+          datasets: [{
+            label: 'Number of Users by Age Group',
+            data: data,  
+            backgroundColor: 'rgba(54, 162, 235, 0.5)', 
+            borderColor: 'rgba(54, 162, 235, 1)', 
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: 'Number of Users' }
+            },
+            x: {
+              title: { display: true, text: 'Age Group' }
+            }
+          }
+        }
+      });
+    </script>
+{% endblock %}
